@@ -6,7 +6,7 @@
  * may be used, reproduced, stored or distributed in any form,
  * without explicit written authorization from Numenta Inc.
  */
-import core from "@actions/core";
+import * as core from "@actions/core";
 
 try
 {

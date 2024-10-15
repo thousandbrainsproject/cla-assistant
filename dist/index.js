@@ -27450,12 +27450,12 @@ var __webpack_exports__ = {};
  */
 
 try {
-    const nameToGreet = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput("who-to-greet");
+    const nameToGreet = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("who-to-greet");
     console.log(`Hello ${nameToGreet}`);
     const time = (new Date()).toTimeString();
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput("time", time);
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("time", time);
 }
 catch (error) {
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setFailed(error.message);
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
 }
 
