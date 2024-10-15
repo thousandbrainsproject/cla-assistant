@@ -4,13 +4,14 @@
     "description": "CLA assistant for the Thousand Brains Project",
     "private": true,
     "scripts": {
-        "build": "npm run clean && tsc -p tsconfig.json",
+        "build": "npm run clean && ncc build src/index.ts",
         "clean": "rm -rf dist"
     },
     "main": "index.mjs",
     "type": "module",
     "devDependencies": {
         "@types/node": "^22.7.5",
+        "@vercel/ncc": "^0.38.2",
         "typescript": "^5.6.3"
     },
     "dependencies": {
