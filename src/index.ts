@@ -7,6 +7,22 @@
  * without explicit written authorization from Numenta Inc.
  */
 import * as core from "@actions/core";
+import { Octokit } from "octokit";
+
+const octokit = new Octokit(
+    {
+        auth: process.env.GITHUB_TOKEN
+    }
+);
+
+const contributors = await octokit.rest.teams.listMembersInOrg(
+    {
+        org: "numenta",
+        team_slug: "nupic-contrib"
+    }
+)
+
+console.log(contributors);
 
 try
 {
