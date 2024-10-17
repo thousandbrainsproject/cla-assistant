@@ -9,6 +9,11 @@
 import * as core from "@actions/core";
 import { Octokit } from "octokit";
 
+if (!process.env.TBP_BOT_PAT)
+{
+    console.log("TBP_BOT_PAT is not set.");
+}
+
 const octokit = new Octokit(
     {
         auth: process.env.TBP_BOT_PAT
@@ -20,7 +25,7 @@ const contributors = await octokit.rest.teams.listMembersInOrg(
         org: "numenta",
         team_slug: "nupic-contrib"
     }
-)
+);
 
 console.log(contributors);
 
