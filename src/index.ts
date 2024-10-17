@@ -11,7 +11,7 @@ import { Octokit } from "octokit";
 
 const octokit = new Octokit(
     {
-        auth: process.env.GITHUB_TOKEN
+        auth: process.env.TBP_BOT_PAT
     }
 );
 
