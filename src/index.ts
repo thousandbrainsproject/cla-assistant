@@ -9,9 +9,6 @@
 import * as core from "@actions/core";
 import { Octokit } from "octokit";
 
-// TODO: Remove artisanal versioning after debugging
-console.log("2024-10-18 11:46");
-
 const CLA_LINK = "https://na4.documents.adobe.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhA-C5ccSQcDGY-PiamH4HnZdj5p2I1oDc8FiBJ_23pReFeauFhfcIkC1XfzxC2qnBQ*";
 
 // TODO: Update after renaming TBP_BOT_PAT to TBP_BOT_TOKEN_SECRET in nupic.monty
@@ -37,16 +34,17 @@ const claSignatories = await tbpBotOctokit.paginate(
     }
 );
 
-const prAuthor = core.getInput("pull-request-author") || core.getInput("who-to-greet");
-const prNumber = parseInt(core.getInput("pull-request-number")) || 463;
+const prAuthor = core.getInput("pull-request-author");
+const prNumber = parseInt(core.getInput("pull-request-number"));
+const repoOwner = core.getInput("repo-owner");
+const repoName = core.getInput("repo-name");
 
 const prAuthorCLASignatory = claSignatories.find(signatory => signatory.login == prAuthor);
 
 if (prAuthorCLASignatory)
 {
     console.log(`${prAuthor} has signed the CLA.`);
-    console.log("Proceeding for debugging reasons...");
-    // process.exit(0);
+    process.exit(0);
 }
 
 core.setFailed(`${prAuthor} has not signed the CLA.`);
@@ -59,25 +57,11 @@ const prOctokit = new Octokit(
 
 await prOctokit.rest.issues.createComment(
     {
-        owner: "numentacorp",
-        repo: "nupic.monty",
+        owner: repoOwner,
+        repo: repoName,
         issue_number: prNumber,
-        body: `Thank you for your contribution @${prAuthor}!\n\nIt appears that you haven't signed our Contributor License Agreement (CLA) yet.\n\n**Please [visit this link and sign](${CLA_LINK}).**`
+        body: `Thank you for your contribution @${prAuthor}!\n\nIt appears that you haven't signed our Contributor License Agreement yet.\n\n**Please [visit this link and sign](${CLA_LINK}).**`
     }
 );
 console.log("Comment with CLA link posted on the pull request.");
 process.exit(1);
-
-try
-{
-    const nameToGreet = core.getInput("who-to-greet");
-    console.log(`Hello ${nameToGreet}`);
-
-    const time = (new Date()).toTimeString();
-    core.setOutput("time", time);
-}
-catch (error)
-{
-    core.setFailed(error.message);
-    process.exit(1);
-}

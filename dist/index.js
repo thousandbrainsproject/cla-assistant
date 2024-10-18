@@ -27094,8 +27094,6 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
  */
 
 
-// TODO: Remove artisanal versioning after debugging
-console.log("2024-10-18 11:46");
 const CLA_LINK = "https://na4.documents.adobe.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhA-C5ccSQcDGY-PiamH4HnZdj5p2I1oDc8FiBJ_23pReFeauFhfcIkC1XfzxC2qnBQ*";
 // TODO: Update after renaming TBP_BOT_PAT to TBP_BOT_TOKEN_SECRET in nupic.monty
 const TBP_BOT_TOKEN_SECRET = process.env.TBP_BOT_PAT;
@@ -27110,36 +27108,27 @@ const claSignatories = await tbpBotOctokit.paginate(tbpBotOctokit.rest.teams.lis
     org: "numenta",
     team_slug: "nupic-contrib"
 });
-const prAuthor = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-author") || _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("who-to-greet");
-const prNumber = parseInt(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-number")) || 463;
+const prAuthor = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-author");
+const prNumber = parseInt(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-number"));
+const repoOwner = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-owner");
+const repoName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-name");
 const prAuthorCLASignatory = claSignatories.find(signatory => signatory.login == prAuthor);
 if (prAuthorCLASignatory) {
     console.log(`${prAuthor} has signed the CLA.`);
-    console.log("Proceeding for debugging reasons...");
-    // process.exit(0);
+    process.exit(0);
 }
 _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`${prAuthor} has not signed the CLA.`);
 const prOctokit = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .Eg({
     auth: process.env.GITHUB_TOKEN
 });
 await prOctokit.rest.issues.createComment({
-    owner: "numentacorp",
-    repo: "nupic.monty",
+    owner: repoOwner,
+    repo: repoName,
     issue_number: prNumber,
-    body: `Thank you for your contribution @${prAuthor}!\n\nIt appears that you haven't signed our Contributor License Agreement (CLA) yet.\n\n**Please [visit this link and sign](${CLA_LINK}).**`
+    body: `Thank you for your contribution @${prAuthor}!\n\nIt appears that you haven't signed our Contributor License Agreement yet.\n\n**Please [visit this link and sign](${CLA_LINK}).**`
 });
 console.log("Comment with CLA link posted on the pull request.");
 process.exit(1);
-try {
-    const nameToGreet = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("who-to-greet");
-    console.log(`Hello ${nameToGreet}`);
-    const time = (new Date()).toTimeString();
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("time", time);
-}
-catch (error) {
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
-    process.exit(1);
-}
 
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } }, 1);
