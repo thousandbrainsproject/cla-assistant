@@ -11,8 +11,7 @@ import { Octokit } from "octokit";
 
 const CLA_LINK = "https://na4.documents.adobe.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhA-C5ccSQcDGY-PiamH4HnZdj5p2I1oDc8FiBJ_23pReFeauFhfcIkC1XfzxC2qnBQ*";
 
-// TODO: Update after renaming TBP_BOT_PAT to TBP_BOT_TOKEN_SECRET in nupic.monty
-const TBP_BOT_TOKEN_SECRET = process.env.TBP_BOT_PAT;
+const TBP_BOT_TOKEN_SECRET = process.env.TBP_BOT_TOKEN_SECRET;
 
 if (!TBP_BOT_TOKEN_SECRET)
 {
