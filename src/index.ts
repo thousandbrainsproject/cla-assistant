@@ -15,6 +15,11 @@ if (!process.env.TBP_BOT_TOKEN_SECRET)
 {
     console.error("TBP_BOT_TOKEN_SECRET is not set.");
 }
+else
+{
+    core.setFailed("TBP_BOT_TOKEN_SECRET is not set.");
+    process.exit(1);
+}
 
 const octokit = new Octokit(
     {
@@ -37,6 +42,7 @@ const prAuthorCLASignatory = claSignatories.find(signatory => signatory.login ==
 if (!prAuthorCLASignatory)
 {
     core.setFailed(`${pullRequestAuthor} has not signed the CLA.`);
+    process.exit(1);
 }
 else
 {
@@ -54,4 +60,5 @@ try
 catch (error)
 {
     core.setFailed(error.message);
+    process.exit(1);
 }

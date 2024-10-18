@@ -27098,6 +27098,10 @@ console.log("2024-10-18 10:12");
 if (!process.env.TBP_BOT_TOKEN_SECRET) {
     console.error("TBP_BOT_TOKEN_SECRET is not set.");
 }
+else {
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed("TBP_BOT_TOKEN_SECRET is not set.");
+    process.exit(1);
+}
 const octokit = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .Eg({
     auth: process.env.TBP_BOT_TOKEN_SECRET
 });
@@ -27109,6 +27113,7 @@ const pullRequestAuthor = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("p
 const prAuthorCLASignatory = claSignatories.find(signatory => signatory.login == pullRequestAuthor);
 if (!prAuthorCLASignatory) {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`${pullRequestAuthor} has not signed the CLA.`);
+    process.exit(1);
 }
 else {
     console.log(`${pullRequestAuthor} has signed the CLA.`);
@@ -27121,6 +27126,7 @@ try {
 }
 catch (error) {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
+    process.exit(1);
 }
 
 __webpack_async_result__();
