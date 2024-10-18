@@ -27107,8 +27107,15 @@ const claSignatories = await tbpBotOctokit.paginate(tbpBotOctokit.rest.teams.lis
     org: "numenta",
     team_slug: "nupic-contrib"
 });
-const prAuthor = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-author");
-const prNumber = parseInt(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-number"));
+let prAuthor = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-author");
+if (prAuthor[0] == "$") {
+    prAuthor = prAuthor.slice(1);
+}
+let prNumberStr = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-number");
+if (prNumberStr[0] == "$") {
+    prNumberStr = prNumberStr.slice(1);
+}
+const prNumber = parseInt(prNumberStr);
 const repoOwner = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-owner");
 const repoName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-name");
 const prAuthorCLASignatory = claSignatories.find(signatory => signatory.login == prAuthor);
