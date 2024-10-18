@@ -9,24 +9,18 @@
 import * as core from "@actions/core";
 import { Octokit } from "octokit";
 
-
-if (!process.env.TBP_BOT_PAT)
+if (!process.env.TBP_BOT_TOKEN_SECRET)
 {
-    console.log("TBP_BOT_PAT is not set.");
+    console.error("TBP_BOT_TOKEN_SECRET is not set.");
 }
-else
-{
-    console.log("TBP_BOT_PAT is set.");
-}
-
 
 const octokit = new Octokit(
     {
-        auth: process.env.TBP_BOT_PAT
+        auth: process.env.TBP_BOT_TOKEN_SECRET
     }
 );
 
-const contributors = await octokit.paginate(
+const claSignatories = await octokit.paginate(
     octokit.rest.teams.listMembersInOrg,
     {
         org: "numenta",
@@ -34,7 +28,18 @@ const contributors = await octokit.paginate(
     }
 );
 
-console.log(contributors);
+const pullRequestAuthor = core.getInput("pull-request-author") || core.getInput("who-to-greet");
+
+const prAuthorCLASignatory = claSignatories.find(signatory => signatory.login == pullRequestAuthor);
+
+if (!prAuthorCLASignatory)
+{
+    core.setFailed(`${pullRequestAuthor} has not signed the CLA.`);
+}
+else
+{
+    console.log(`${pullRequestAuthor} has signed the CLA.`);
+}
 
 try
 {
