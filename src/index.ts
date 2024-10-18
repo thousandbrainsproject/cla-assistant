@@ -33,8 +33,17 @@ const claSignatories = await tbpBotOctokit.paginate(
     }
 );
 
-const prAuthor = core.getInput("pull-request-author");
-const prNumber = parseInt(core.getInput("pull-request-number"));
+let prAuthor = core.getInput("pull-request-author");
+if (prAuthor[0] == "$")
+{
+    prAuthor = prAuthor.slice(1);
+}
+let prNumberStr = core.getInput("pull-request-number");
+if (prNumberStr[0] == "$")
+{
+    prNumberStr = prNumberStr.slice(1);
+}
+const prNumber = parseInt(prNumberStr);
 const repoOwner = core.getInput("repo-owner");
 const repoName = core.getInput("repo-name");
 
