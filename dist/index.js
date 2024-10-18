@@ -27094,20 +27094,24 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
  */
 
 
-if (!process.env.TBP_BOT_PAT) {
-    console.log("TBP_BOT_PAT is not set.");
-}
-else {
-    console.log("TBP_BOT_PAT is set.");
+if (!process.env.TBP_BOT_TOKEN_SECRET) {
+    console.error("TBP_BOT_TOKEN_SECRET is not set.");
 }
 const octokit = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .Eg({
-    auth: process.env.TBP_BOT_PAT
+    auth: process.env.TBP_BOT_TOKEN_SECRET
 });
-const contributors = await octokit.paginate(octokit.rest.teams.listMembersInOrg, {
+const claSignatories = await octokit.paginate(octokit.rest.teams.listMembersInOrg, {
     org: "numenta",
     team_slug: "nupic-contrib"
 });
-console.log(contributors);
+const pullRequestAuthor = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-author") || _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("who-to-greet");
+const prAuthorCLASignatory = claSignatories.find(signatory => signatory.login == pullRequestAuthor);
+if (!prAuthorCLASignatory) {
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`${pullRequestAuthor} has not signed the CLA.`);
+}
+else {
+    console.log(`${pullRequestAuthor} has signed the CLA.`);
+}
 try {
     const nameToGreet = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("who-to-greet");
     console.log(`Hello ${nameToGreet}`);
