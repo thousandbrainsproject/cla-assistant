@@ -62,7 +62,7 @@ await prOctokit.rest.issues.createComment(
         owner: "numentacorp",
         repo: "nupic.monty",
         issue_number: prNumber,
-        body: `Thank you for your contribution! It appears that you haven't signed our Contributor License Agreement (CLA) yet. Please [visit this link and sign](${CLA_LINK}).`
+        body: `Thank you for your contribution @${prAuthor}!\n\nIt appears that you haven't signed our Contributor License Agreement (CLA) yet.\n\n**Please [visit this link and sign](${CLA_LINK}).**`
     }
 );
 console.log("Comment with CLA link posted on the pull request.");
