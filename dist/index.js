@@ -27097,10 +27097,13 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 if (!process.env.TBP_BOT_PAT) {
     console.log("TBP_BOT_PAT is not set.");
 }
+else {
+    console.log("TBP_BOT_PAT is set.");
+}
 const octokit = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .Eg({
     auth: process.env.TBP_BOT_PAT
 });
-const contributors = await octokit.rest.teams.listMembersInOrg({
+const contributors = await octokit.paginate(octokit.rest.teams.listMembersInOrg, {
     org: "numenta",
     team_slug: "nupic-contrib"
 });
