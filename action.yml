@@ -2,14 +2,18 @@ name: "Hello World JS Action"
 description: "Greet someone and record the time"
 
 inputs:
-  who-to-greet:
-    description: "Who to greet"
+  pull-request-author:
+    description: "The author of the pull request"
     required: true
-    default: "World"
-
-outputs:
-  time:
-    description: "The time we greeted you"
+  pull-request-number:
+    description: "The number of the pull request"
+    required: true
+  repo-owner:
+    description: "The owner of the repository"
+    required: true
+  repo-name:
+    description: "The name of the repository"
+    required: true
 
 runs:
   using: "node20"
