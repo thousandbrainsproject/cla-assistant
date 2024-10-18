@@ -27094,13 +27094,15 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
  */
 
 
-console.log("2024-10-18 10:17");
-if (!process.env.TBP_BOT_TOKEN_SECRET) {
+console.log("2024-10-18 10:22");
+// TODO: Update after renaming TBP_BOT_PAT to TBP_BOT_TOKEN_SECRET in nupic.monty
+const TBP_BOT_TOKEN_SECRET = process.env.TBP_BOT_PAT;
+if (!TBP_BOT_TOKEN_SECRET) {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed("TBP_BOT_TOKEN_SECRET is not set.");
     process.exit(1);
 }
 const octokit = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .Eg({
-    auth: process.env.TBP_BOT_TOKEN_SECRET
+    auth: TBP_BOT_TOKEN_SECRET
 });
 const claSignatories = await octokit.paginate(octokit.rest.teams.listMembersInOrg, {
     org: "numenta",

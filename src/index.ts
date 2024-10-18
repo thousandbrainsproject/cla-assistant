@@ -9,9 +9,12 @@
 import * as core from "@actions/core";
 import { Octokit } from "octokit";
 
-console.log("2024-10-18 10:17");
+console.log("2024-10-18 10:22");
 
-if (!process.env.TBP_BOT_TOKEN_SECRET)
+// TODO: Update after renaming TBP_BOT_PAT to TBP_BOT_TOKEN_SECRET in nupic.monty
+const TBP_BOT_TOKEN_SECRET = process.env.TBP_BOT_PAT;
+
+if (!TBP_BOT_TOKEN_SECRET)
 {
     core.setFailed("TBP_BOT_TOKEN_SECRET is not set.");
     process.exit(1);
@@ -19,7 +22,7 @@ if (!process.env.TBP_BOT_TOKEN_SECRET)
 
 const octokit = new Octokit(
     {
-        auth: process.env.TBP_BOT_TOKEN_SECRET
+        auth: TBP_BOT_TOKEN_SECRET
     }
 );
 
