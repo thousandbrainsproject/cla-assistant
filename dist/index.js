@@ -27094,6 +27094,7 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
  */
 
 
+console.log("2024-10-18 10:12");
 if (!process.env.TBP_BOT_TOKEN_SECRET) {
     console.error("TBP_BOT_TOKEN_SECRET is not set.");
 }

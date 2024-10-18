@@ -9,6 +9,8 @@
 import * as core from "@actions/core";
 import { Octokit } from "octokit";
 
+console.log("2024-10-18 10:12");
+
 if (!process.env.TBP_BOT_TOKEN_SECRET)
 {
     console.error("TBP_BOT_TOKEN_SECRET is not set.");
