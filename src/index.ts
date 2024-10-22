@@ -33,16 +33,8 @@ const claSignatories = await tbpBotOctokit.paginate(
     }
 );
 
-let prAuthor = core.getInput("pull-request-author");
-if (prAuthor[0] == "$")
-{
-    prAuthor = prAuthor.slice(1);
-}
-let prNumberStr = core.getInput("pull-request-number");
-if (prNumberStr[0] == "$")
-{
-    prNumberStr = prNumberStr.slice(1);
-}
+const prAuthor = core.getInput("pull-request-author");
+const prNumberStr = core.getInput("pull-request-number");
 const prNumber = parseInt(prNumberStr);
 const repoOwner = core.getInput("repo-owner");
 const repoName = core.getInput("repo-name");
@@ -63,12 +55,23 @@ const prOctokit = new Octokit(
     }
 );
 
+const commentBody = `\
+Thank you for your contribution @${prAuthor}!
+
+It appears that you haven't signed our Contributor License Agreement yet.
+
+**Please [visit this link and sign](${CLA_LINK}).**
+
+> [!NOTE]
+> New CLA signatures are processed during the work week. It may take some time before your CLA is processed.
+`;
+
 await prOctokit.rest.issues.createComment(
     {
         owner: repoOwner,
         repo: repoName,
         issue_number: prNumber,
-        body: `Thank you for your contribution @${prAuthor}!\n\nIt appears that you haven't signed our Contributor License Agreement yet.\n\n**Please [visit this link and sign](${CLA_LINK}).**`
+        body: commentBody
     }
 );
 console.log("Comment with CLA link posted on the pull request.");
