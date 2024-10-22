@@ -27113,7 +27113,7 @@ const prNumber = parseInt(prNumberStr);
 const repoOwner = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-owner");
 const repoName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-name");
 const prAuthorCLASignatory = claSignatories.find(signatory => signatory.login == prAuthor);
-if (prAuthorCLASignatory && prAuthor !== "tristanls") {
+if (prAuthorCLASignatory) {
     console.log(`${prAuthor} has signed the CLA.`);
     process.exit(0);
 }
@@ -27148,7 +27148,7 @@ It appears that you haven't signed our Contributor License Agreement yet.
 **Please [visit this link and sign](${CLA_LINK}).**
 
 > [!NOTE]
-> New CLA signatures are processed during the work week. It may take some time before your CLA is processed.
+> New signatures are processed during the work week. It may take some time before your signature is processed.
 `;
 await prOctokit.rest.issues.createComment({
     owner: repoOwner,
