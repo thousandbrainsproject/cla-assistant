@@ -27107,14 +27107,8 @@ const claSignatories = await tbpBotOctokit.paginate(tbpBotOctokit.rest.teams.lis
     org: "numenta",
     team_slug: "nupic-contrib"
 });
-let prAuthor = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-author");
-if (prAuthor[0] == "$") {
-    prAuthor = prAuthor.slice(1);
-}
-let prNumberStr = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-number");
-if (prNumberStr[0] == "$") {
-    prNumberStr = prNumberStr.slice(1);
-}
+const prAuthor = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-author");
+const prNumberStr = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-number");
 const prNumber = parseInt(prNumberStr);
 const repoOwner = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-owner");
 const repoName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-name");
@@ -27127,13 +27121,42 @@ _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`${prAuthor} has not signed
 const prOctokit = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .Eg({
     auth: process.env.GITHUB_TOKEN
 });
+// Check if the pull request has already been commented on
+const existingComments = await prOctokit.paginate(prOctokit.rest.issues.listComments, {
+    owner: repoOwner,
+    repo: repoName,
+    issue_number: prNumber
+});
+let alreadyCommented = false;
+for (const comment of existingComments) {
+    if (comment.body.includes(`Thank you for your contribution @${prAuthor}!`) &&
+        comment.body.includes(`It appears that you haven't signed our Contributor License Agreement yet.`) &&
+        comment.body.includes(`Please [visit this link and sign](${CLA_LINK}).`)) {
+        alreadyCommented = true;
+        break;
+    }
+}
+if (alreadyCommented) {
+    console.log("Already commented with CLA link on the pull request.");
+    process.exit(1);
+}
+const commentBody = `\
+Thank you for your contribution @${prAuthor}!
+
+It appears that you haven't signed our Contributor License Agreement yet.
+
+**Please [visit this link and sign](${CLA_LINK}).**
+
+> [!NOTE]
+> New CLA signatures are processed during the work week. It may take some time before your CLA is processed.
+`;
 await prOctokit.rest.issues.createComment({
     owner: repoOwner,
     repo: repoName,
     issue_number: prNumber,
-    body: `Thank you for your contribution @${prAuthor}!\n\nIt appears that you haven't signed our Contributor License Agreement yet.\n\n**Please [visit this link and sign](${CLA_LINK}).**`
+    body: commentBody
 });
-console.log("Comment with CLA link posted on the pull request.");
+console.log("Created comment with CLA link on the pull request.");
 process.exit(1);
 
 __webpack_async_result__();
