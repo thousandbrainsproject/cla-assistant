@@ -41,7 +41,7 @@ const repoName = core.getInput("repo-name");
 
 const prAuthorCLASignatory = claSignatories.find(signatory => signatory.login == prAuthor);
 
-if (prAuthorCLASignatory)
+if (prAuthorCLASignatory && prAuthor !== "tristanls")
 {
     console.log(`${prAuthor} has signed the CLA.`);
     process.exit(0);

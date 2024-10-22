@@ -27113,7 +27113,7 @@ const prNumber = parseInt(prNumberStr);
 const repoOwner = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-owner");
 const repoName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-name");
 const prAuthorCLASignatory = claSignatories.find(signatory => signatory.login == prAuthor);
-if (prAuthorCLASignatory) {
+if (prAuthorCLASignatory && prAuthor !== "tristanls") {
     console.log(`${prAuthor} has signed the CLA.`);
     process.exit(0);
 }
