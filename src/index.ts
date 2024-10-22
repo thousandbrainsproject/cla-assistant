@@ -55,6 +55,34 @@ const prOctokit = new Octokit(
     }
 );
 
+// Check if the pull request has already been commented on
+const existingComments = await prOctokit.paginate(
+    prOctokit.rest.issues.listComments,
+    {
+        owner: repoOwner,
+        repo: repoName,
+        issue_number: prNumber
+    }
+);
+let alreadyCommented = false;
+for (const comment of existingComments)
+{
+    if (comment.body.includes(`Thank you for your contribution @${prAuthor}!`) &&
+        comment.body.includes(`It appears that you haven't signed our Contributor License Agreement yet.`) &&
+        comment.body.includes(`Please [visit this link and sign](${CLA_LINK}).`)
+    )
+    {
+        alreadyCommented = true;
+        break;
+    }
+}
+
+if (alreadyCommented)
+{
+    console.log("Already commented with CLA link on the pull request.");
+    process.exit(1);
+}
+
 const commentBody = `\
 Thank you for your contribution @${prAuthor}!
 
@@ -74,5 +102,5 @@ await prOctokit.rest.issues.createComment(
         body: commentBody
     }
 );
-console.log("Comment with CLA link posted on the pull request.");
+console.log("Created comment with CLA link on the pull request.");
 process.exit(1);
