@@ -1,5 +1,5 @@
-name: "Hello World JS Action"
-description: "Greet someone and record the time"
+name: "CLA Assistant"
+description: "Check CLA signatories"
 
 inputs:
   pull-request-author:
