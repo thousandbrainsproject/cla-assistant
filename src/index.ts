@@ -92,6 +92,8 @@ It appears that you haven't signed our Contributor License Agreement yet.
 
 > [!NOTE]
 > New signatures are processed during the work week. It may take some time before your signature is processed.
+>
+> You will be invited to the Numenta \`nupic-contrib\` team once your signature is processed.
 `;
 
 await prOctokit.rest.issues.createComment(
