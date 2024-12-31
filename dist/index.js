@@ -27094,7 +27094,7 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
  */
 
 
-const CLA_LINK = "https://na4.documents.adobe.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhA-C5ccSQcDGY-PiamH4HnZdj5p2I1oDc8FiBJ_23pReFeauFhfcIkC1XfzxC2qnBQ*";
+const CLA_LINK = "https://github.com/thousandbrainsproject/cla/issues/new?template=01_sign_cla.yml&labels=signature+CLA+v1&title=Contributor+License+Agreement+v1+Signature";
 const TBP_BOT_TOKEN_SECRET = process.env.TBP_BOT_TOKEN_SECRET;
 if (!TBP_BOT_TOKEN_SECRET) {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed("TBP_BOT_TOKEN_SECRET is not set.");
@@ -27104,8 +27104,8 @@ const tbpBotOctokit = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .Eg
     auth: TBP_BOT_TOKEN_SECRET
 });
 const claSignatories = await tbpBotOctokit.paginate(tbpBotOctokit.rest.teams.listMembersInOrg, {
-    org: "numenta",
-    team_slug: "nupic-contrib"
+    org: "thousandbrainsproject",
+    team_slug: "cla-signatories"
 });
 const prAuthor = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-author");
 const prNumberStr = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("pull-request-number");
@@ -27148,9 +27148,9 @@ It appears that you haven't signed our Contributor License Agreement yet.
 **Please [visit this link and sign](${CLA_LINK}).**
 
 > [!NOTE]
-> New signatures are processed during the work week. It may take some time before your signature is processed.
+> You will be invited to the Thousand Brains Project \`cla-signatories\` team once your signature is processed.
 >
-> You will be invited to the Numenta \`nupic-contrib\` team once your signature is processed.
+> Please accept the invitation to complete the CLA process.
 `;
 await prOctokit.rest.issues.createComment({
     owner: repoOwner,

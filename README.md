@@ -3,14 +3,14 @@
 This GitHub Action checks if a pull request author has signed the CLA and adds a comment to the pull request if they haven't.
 
 > [!NOTE]
-> CLA Assistant checks membership of the https://github.com/orgs/numenta/teams/nupic-contrib team to determine CLA signatories.
+> CLA Assistant checks membership of the https://github.com/orgs/thousandbrainsproject/teams/cla-signatories team to determine CLA signatories.
 
 ## Prerequisites
 
 - The repository using this action must have a configured GitHub secret with the name `TBP_BOT_TOKEN_SECRET` that is a classic token secret for the https://github.com/tbp-bot. The scope for the token must include `repo` (all) and `read:org`.
 
 > [!NOTE]
-> https://github.com/tbp-bot must be a member of the Numenta organization to be able to read team membership.
+> https://github.com/tbp-bot must be a member of the Thousand Brains Project organization to be able to read team membership.
 
 ## Security Considerations
 
