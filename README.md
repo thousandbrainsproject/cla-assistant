@@ -3,18 +3,15 @@
 This GitHub Action checks if a pull request author has signed the CLA and adds a comment to the pull request if they haven't.
 
 > [!NOTE]
-> CLA Assistant checks membership of the https://github.com/orgs/thousandbrainsproject/teams/cla-signatories team to determine CLA signatories.
+> CLA Assistant checks membership of the CLA signatories database to determine CLA signatories.
 
 ## Prerequisites
 
-- The repository using this action must have a configured GitHub secret with the name `TBP_BOT_TOKEN_SECRET` that is a classic token secret for the https://github.com/tbp-bot. The scope for the token must include `repo` (all) and `read:org`.
-
-> [!NOTE]
-> https://github.com/tbp-bot must be a member of the Thousand Brains Project organization to be able to read team membership.
+- The repository using this action must have a configured GitHub secrets with the names `CLA_ASSISTANT_ACCESS_KEY_ID` and `CLA_ASSISTANT_SECRET_ACCESS_KEY` that correspond to the AWS credentials of the `cla-assistant` user with access to the CLA signatories database.
 
 ## Security Considerations
 
-The `TBP_BOT_TOKEN_SECRET` secret is used to authenticate the `tbp-bot` user when checking team membership. To access this secret, the action should be triggered only on the `pull_request_target` event (configured repository secrets are unavailable otherwise). This means the YAML describing a workflow that uses this action should be in the `main` branch of the repository for the action to trigger. Consequently, troubleshooting the workflow on a pull request branch will not work as no changes will take effect until merged into `main`.
+The `CLA_ASSISTANT_ACCESS_KEY_ID`, `CLA_ASSISTANT_SECRET_ACCESS_KEY` secrets are used to authenticate the `cla-assistant` user when checking whether CLA was signed. To access these secrets, the action should be triggered only on the `pull_request_target` event (configured repository secrets are unavailable otherwise). This means the YAML describing a workflow that uses this action should be in the `main` branch of the repository for the action to trigger. Consequently, troubleshooting the workflow on a pull request branch will not work as no changes will take effect until merged into `main`.
 
 ## Usage
 
@@ -37,8 +34,9 @@ jobs:
       - name: "Verify CLA"
         uses: thousandbrainsproject/cla-assistant@main
         env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.CLA_ASSISTANT_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.CLA_ASSISTANT_SECRET_ACCESS_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TBP_BOT_TOKEN_SECRET: ${{ secrets.TBP_BOT_TOKEN_SECRET }}
         with:
           pull-request-author: ${{ github.event.pull_request.user.login }}
           pull-request-number: ${{ github.event.pull_request.number }}
