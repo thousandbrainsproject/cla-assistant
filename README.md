@@ -7,11 +7,14 @@ This GitHub Action checks if a pull request author has signed the CLA and adds a
 
 ## Prerequisites
 
-- The repository using this action must have a configured GitHub secrets with the names `CLA_ASSISTANT_ACCESS_KEY_ID` and `CLA_ASSISTANT_SECRET_ACCESS_KEY` that correspond to the AWS credentials of the `cla-assistant` user with access to the CLA signatories database.
+- The repository using this action must have configured GitHub secrets with the names `CLA_ASSISTANT_ACCESS_KEY_ID` and `CLA_ASSISTANT_SECRET_ACCESS_KEY` that correspond to the AWS credentials of the `cla-assistant` user with access to the CLA signatories database.
 
 ## Security Considerations
 
-The `CLA_ASSISTANT_ACCESS_KEY_ID`, `CLA_ASSISTANT_SECRET_ACCESS_KEY` secrets are used to authenticate the `cla-assistant` user when checking whether CLA was signed. To access these secrets, the action should be triggered only on the `pull_request_target` event (configured repository secrets are unavailable otherwise). This means the YAML describing a workflow that uses this action should be in the `main` branch of the repository for the action to trigger. Consequently, troubleshooting the workflow on a pull request branch will not work as no changes will take effect until merged into `main`.
+The `CLA_ASSISTANT_ACCESS_KEY_ID` and `CLA_ASSISTANT_SECRET_ACCESS_KEY` secrets are used to authenticate the `cla-assistant` user when checking whether CLA was signed. To access these secrets, the action should be triggered only on the `pull_request_target` event (configured repository secrets are unavailable otherwise). This means the YAML describing a workflow that uses this action should be in the `main` branch of the repository for the action to trigger. Consequently, troubleshooting the workflow on a pull request branch will not work as no changes will take effect until merged into `main`.
+
+> [!NOTE]
+> While the secret names configured in the repository have the `CLA_ASSISTANT_` prefix, for ease of integration with the `aws-sdk`, use `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variable names when configuring the action itself. See example below.
 
 ## Usage
 
